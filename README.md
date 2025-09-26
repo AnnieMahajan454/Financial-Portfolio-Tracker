@@ -2,7 +2,7 @@
 
 A comprehensive Python-based portfolio tracking system with real-time data integration, advanced risk analytics, and Power BI dashboard capabilities.
 
-## 🚀 Features
+## Features
 
 - **Real-time Portfolio Tracking**: Track 200+ equities with live price updates
 - **Advanced Risk Analytics**: VaR, CVaR, Beta, Sharpe ratio, and stress testing
@@ -11,14 +11,14 @@ A comprehensive Python-based portfolio tracking system with real-time data integ
 - **Sector Analysis**: Comprehensive sector allocation and risk exposure metrics
 - **Automated Reporting**: Reduced manual reporting time by 40%
 
-## 📊 Dashboard Highlights
+## Dashboard Highlights
 
 - **Portfolio Overview**: Real-time portfolio values, P&L, and allocation charts
 - **Risk Analysis**: Risk metrics trends, sector risk heatmaps, and stress testing
 - **Performance Attribution**: Waterfall charts and contribution analysis
 - **Holdings Detail**: Comprehensive holdings management with filtering and sorting
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Backend**: Python 3.8+
 - **Database**: PostgreSQL
@@ -27,14 +27,14 @@ A comprehensive Python-based portfolio tracking system with real-time data integ
 - **Visualization**: Power BI
 - **Configuration**: YAML, Environment Variables
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Python 3.8 or higher
 - PostgreSQL 12 or higher
 - Power BI Desktop (for dashboard development)
 - Alpha Vantage API key (optional, for intraday data)
 
-## 🔧 Installation
+## Installation
 
 ### 1. Clone the Repository
 
@@ -84,7 +84,7 @@ cp config/.env.template config/.env
 mkdir -p logs
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Basic Usage
 
@@ -153,7 +153,7 @@ schedule_file = exporter.schedule_automated_export(
 )
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Financial-Portfolio-Tracker/
@@ -180,7 +180,7 @@ Financial-Portfolio-Tracker/
 └── README.md
 ```
 
-## 📊 Key Metrics Tracked
+## Key Metrics Tracked
 
 ### Performance Metrics
 - Total Return %
@@ -202,21 +202,21 @@ Financial-Portfolio-Tracker/
 - Asset Class Distribution
 - Top Holdings Analysis
 
-## 🔒 Security Considerations
+## Security Considerations
 
 - All API keys and database credentials are stored in environment variables
 - Database connections use parameterized queries to prevent SQL injection
 - Sensitive data is never logged or exposed in error messages
 - Rate limiting is implemented for API calls
 
-## 📈 Performance Optimization
+## Performance Optimization
 
 - Concurrent API calls for faster data fetching
 - Database indexing for optimal query performance
 - Caching mechanisms for frequently accessed data
 - Batch processing for large datasets
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -229,7 +229,7 @@ pytest --cov=src/portfolio_tracker --cov-report=html
 pytest tests/test_portfolio.py
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 ### DatabaseManager
 - `create_portfolio()`: Create new portfolio
@@ -255,7 +255,7 @@ pytest tests/test_portfolio.py
 - `create_full_export_package()`: Complete data export
 - `create_powerbi_template_config()`: Generate Power BI config
 
-## 🔄 Data Flow
+## Data Flow
 
 1. **Data Ingestion**: Real-time price data from Yahoo Finance/Alpha Vantage
 2. **Data Processing**: Portfolio calculations and risk analytics
@@ -263,14 +263,14 @@ pytest tests/test_portfolio.py
 4. **Data Export**: Automated exports to Power BI-compatible formats
 5. **Visualization**: Power BI dashboards with real-time updates
 
-## 🚨 Monitoring and Alerts
+## Monitoring and Alerts
 
 - Portfolio loss threshold alerts
 - Risk metric threshold notifications
 - Data quality monitoring
 - System performance tracking
 
-## 📝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -282,27 +282,27 @@ pytest tests/test_portfolio.py
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👤 Author
+## Author
 
 **Annie Mahajan**
 - GitHub: [@AnnieMahajan454](https://github.com/AnnieMahajan454)
 - LinkedIn: [Annie Mahajan](https://linkedin.com/in/anniemahajan)
 
-## 🤝 Support
+## Support
 
 For questions, suggestions, or issues, please:
 1. Check the [Issues](https://github.com/AnnieMahajan454/Financial-Portfolio-Tracker/issues) page
 2. Create a new issue if your problem isn't already reported
 3. Provide detailed information about your environment and the issue
 
-## 📊 Performance Benchmarks
+## Performance Benchmarks
 
 - **Data Processing**: 1000+ equity updates in under 30 seconds
 - **Risk Calculations**: Complete portfolio analysis in under 5 seconds
 - **Power BI Export**: Full data export for 10 portfolios in under 2 minutes
 - **Database Queries**: Sub-second response times with proper indexing
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - Machine learning-based return predictions
 - Options and derivatives tracking
@@ -312,5 +312,3 @@ For questions, suggestions, or issues, please:
 - Advanced backtesting capabilities
 
 ---
-
-⭐ **Star this repository if you find it useful!** ⭐
