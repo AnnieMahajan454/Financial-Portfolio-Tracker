@@ -1,0 +1,297 @@
+{
+  "name": "Portfolio Tracker Dashboard",
+  "version": "1.0",
+  "description": "Comprehensive portfolio tracking dashboard with risk analytics",
+  "pages": [
+    {
+      "name": "Portfolio Overview",
+      "displayName": "Portfolio Overview",
+      "visualizations": [
+        {
+          "type": "card",
+          "title": "Total Portfolio Value",
+          "position": { "x": 0, "y": 0, "width": 200, "height": 100 },
+          "data_source": "portfolio_summary",
+          "measure": "SUM(total_market_value)",
+          "format": "currency"
+        },
+        {
+          "type": "card", 
+          "title": "Total P&L",
+          "position": { "x": 220, "y": 0, "width": 200, "height": 100 },
+          "data_source": "portfolio_summary",
+          "measure": "SUM(total_unrealized_pnl)",
+          "format": "currency",
+          "conditional_formatting": {
+            "positive": "green",
+            "negative": "red"
+          }
+        },
+        {
+          "type": "card",
+          "title": "Number of Portfolios",
+          "position": { "x": 440, "y": 0, "width": 200, "height": 100 },
+          "data_source": "portfolio_summary", 
+          "measure": "DISTINCTCOUNT(portfolio_id)",
+          "format": "number"
+        },
+        {
+          "type": "card",
+          "title": "Average Sharpe Ratio",
+          "position": { "x": 660, "y": 0, "width": 200, "height": 100 },
+          "data_source": "portfolio_summary",
+          "measure": "AVERAGE(sharpe_ratio)",
+          "format": "decimal_2"
+        },
+        {
+          "type": "pie_chart",
+          "title": "Portfolio Allocation by Value",
+          "position": { "x": 0, "y": 120, "width": 400, "height": 300 },
+          "data_source": "portfolio_summary",
+          "legend": "portfolio_name",
+          "values": "total_market_value",
+          "show_labels": true,
+          "show_legend": true
+        },
+        {
+          "type": "donut_chart",
+          "title": "Sector Allocation",
+          "position": { "x": 420, "y": 120, "width": 400, "height": 300 },
+          "data_source": "sector_allocation",
+          "legend": "sector",
+          "values": "sector_value",
+          "show_labels": true,
+          "show_legend": true
+        },
+        {
+          "type": "bar_chart",
+          "title": "Top 10 Holdings by Value",
+          "position": { "x": 0, "y": 440, "width": 820, "height": 300 },
+          "data_source": "holdings_detail",
+          "x_axis": "symbol",
+          "y_axis": "market_value",
+          "sort_order": "descending",
+          "show_data_labels": true,
+          "top_n": 10
+        }
+      ]
+    },
+    {
+      "name": "Risk Analysis",
+      "displayName": "Risk Analysis",
+      "visualizations": [
+        {
+          "type": "card",
+          "title": "Portfolio VaR (95%)",
+          "position": { "x": 0, "y": 0, "width": 200, "height": 100 },
+          "data_source": "risk_metrics",
+          "measure": "CALCULATE(AVERAGE(value), risk_metrics[metric_type] = \"var\" && risk_metrics[confidence_level] = 0.95)",
+          "format": "percentage_2"
+        },
+        {
+          "type": "card",
+          "title": "Portfolio Beta",
+          "position": { "x": 220, "y": 0, "width": 200, "height": 100 },
+          "data_source": "risk_metrics",
+          "measure": "CALCULATE(AVERAGE(value), risk_metrics[metric_type] = \"beta\")",
+          "format": "decimal_2"
+        },
+        {
+          "type": "card",
+          "title": "Volatility",
+          "position": { "x": 440, "y": 0, "width": 200, "height": 100 },
+          "data_source": "risk_metrics",
+          "measure": "CALCULATE(AVERAGE(value), risk_metrics[metric_type] = \"volatility\")",
+          "format": "percentage_2"
+        },
+        {
+          "type": "card",
+          "title": "Max Drawdown",
+          "position": { "x": 660, "y": 0, "width": 200, "height": 100 },
+          "data_source": "risk_metrics",
+          "measure": "CALCULATE(MIN(value), risk_metrics[metric_type] = \"max_drawdown\")",
+          "format": "percentage_2",
+          "conditional_formatting": {
+            "threshold": -0.05,
+            "below_threshold": "red"
+          }
+        },
+        {
+          "type": "line_chart",
+          "title": "Risk Metrics Trend",
+          "position": { "x": 0, "y": 120, "width": 820, "height": 250 },
+          "data_source": "risk_metrics",
+          "x_axis": "metric_date",
+          "y_axis": "value",
+          "legend": "metric_type",
+          "show_markers": true,
+          "filters": [
+            {
+              "column": "metric_type",
+              "values": ["volatility", "beta", "sharpe_ratio"]
+            }
+          ]
+        },
+        {
+          "type": "heatmap",
+          "title": "Risk by Sector",
+          "position": { "x": 0, "y": 390, "width": 400, "height": 300 },
+          "data_source": "sector_allocation",
+          "category": "sector",
+          "measure": "risk_contribution",
+          "color_scale": "red_yellow_green"
+        },
+        {
+          "type": "scatter_plot",
+          "title": "Risk vs Return Analysis",
+          "position": { "x": 420, "y": 390, "width": 400, "height": 300 },
+          "data_source": "portfolio_summary",
+          "x_axis": "volatility",
+          "y_axis": "total_return_pct",
+          "size": "total_market_value",
+          "color": "sharpe_ratio",
+          "show_trend_line": true
+        }
+      ]
+    },
+    {
+      "name": "Performance Attribution",
+      "displayName": "Performance Attribution", 
+      "visualizations": [
+        {
+          "type": "waterfall_chart",
+          "title": "Portfolio Performance Attribution",
+          "position": { "x": 0, "y": 0, "width": 820, "height": 300 },
+          "data_source": "performance_attribution",
+          "category": "symbol",
+          "measure": "contribution_to_return",
+          "sort_order": "descending",
+          "show_total": true
+        },
+        {
+          "type": "bar_chart",
+          "title": "Top Contributors to Performance",
+          "position": { "x": 0, "y": 320, "width": 400, "height": 250 },
+          "data_source": "performance_attribution",
+          "x_axis": "symbol",
+          "y_axis": "contribution_to_return",
+          "sort_order": "descending",
+          "top_n": 10,
+          "show_data_labels": true
+        },
+        {
+          "type": "bar_chart",
+          "title": "Top Detractors from Performance", 
+          "position": { "x": 420, "y": 320, "width": 400, "height": 250 },
+          "data_source": "performance_attribution",
+          "x_axis": "symbol",
+          "y_axis": "contribution_to_return",
+          "sort_order": "ascending",
+          "top_n": 10,
+          "show_data_labels": true
+        },
+        {
+          "type": "table",
+          "title": "Detailed Holdings Performance",
+          "position": { "x": 0, "y": 590, "width": 820, "height": 300 },
+          "data_source": "holdings_detail",
+          "columns": [
+            { "name": "symbol", "width": 80 },
+            { "name": "company_name", "width": 200 },
+            { "name": "sector", "width": 120 },
+            { "name": "market_value", "width": 100, "format": "currency" },
+            { "name": "unrealized_pnl", "width": 100, "format": "currency" },
+            { "name": "weight_percentage", "width": 80, "format": "percentage_1" },
+            { "name": "return_pct", "width": 80, "format": "percentage_2" }
+          ],
+          "sort_by": "market_value",
+          "sort_order": "descending"
+        }
+      ]
+    },
+    {
+      "name": "Holdings Detail",
+      "displayName": "Holdings Detail",
+      "visualizations": [
+        {
+          "type": "slicer",
+          "title": "Portfolio Filter",
+          "position": { "x": 0, "y": 0, "width": 200, "height": 150 },
+          "data_source": "portfolio_summary",
+          "column": "portfolio_name",
+          "selection_type": "multiple"
+        },
+        {
+          "type": "slicer",
+          "title": "Sector Filter", 
+          "position": { "x": 220, "y": 0, "width": 200, "height": 150 },
+          "data_source": "holdings_detail",
+          "column": "sector",
+          "selection_type": "multiple"
+        },
+        {
+          "type": "treemap",
+          "title": "Holdings by Market Value",
+          "position": { "x": 440, "y": 0, "width": 380, "height": 300 },
+          "data_source": "holdings_detail",
+          "category": "symbol",
+          "measure": "market_value",
+          "color": "unrealized_pnl",
+          "show_labels": true
+        },
+        {
+          "type": "table",
+          "title": "All Holdings",
+          "position": { "x": 0, "y": 320, "width": 820, "height": 400 },
+          "data_source": "holdings_detail",
+          "columns": [
+            { "name": "symbol", "width": 70 },
+            { "name": "company_name", "width": 180 },
+            { "name": "sector", "width": 100 },
+            { "name": "quantity", "width": 80, "format": "decimal_2" },
+            { "name": "average_cost", "width": 80, "format": "currency" },
+            { "name": "current_price", "width": 80, "format": "currency" },
+            { "name": "market_value", "width": 100, "format": "currency" },
+            { "name": "unrealized_pnl", "width": 100, "format": "currency" },
+            { "name": "weight_percentage", "width": 70, "format": "percentage_1" }
+          ],
+          "allow_sorting": true,
+          "allow_filtering": true
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "name": "date_range",
+      "type": "date_range",
+      "applies_to": ["risk_metrics"],
+      "default_range": "last_30_days"
+    },
+    {
+      "name": "portfolio_filter",
+      "type": "multi_select",
+      "column": "portfolio_id",
+      "applies_to": ["all"]
+    }
+  ],
+  "refresh_schedule": {
+    "frequency": "daily",
+    "time": "06:00",
+    "timezone": "UTC"
+  },
+  "data_alerts": [
+    {
+      "name": "portfolio_loss_alert",
+      "condition": "total_unrealized_pnl < -50000",
+      "notification_method": "email",
+      "recipients": ["portfolio.manager@company.com"]
+    },
+    {
+      "name": "high_risk_alert", 
+      "condition": "risk_metrics[var_95] < -0.05",
+      "notification_method": "email",
+      "recipients": ["risk.manager@company.com"]
+    }
+  ]
+}
