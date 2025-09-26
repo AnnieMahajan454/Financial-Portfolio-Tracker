@@ -1,0 +1,58 @@
+# Core Dependencies
+pandas>=1.5.0
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Database
+psycopg2-binary>=2.9.0
+SQLAlchemy>=2.0.0
+
+# Data Sources
+yfinance>=0.2.0
+requests>=2.28.0
+
+# Configuration
+PyYAML>=6.0
+python-dotenv>=1.0.0
+
+# Logging and Utilities
+structlog>=22.0.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+
+# Development Tools
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0
+
+# Data Analysis and Visualization (optional for development)
+matplotlib>=3.6.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# API Rate Limiting
+ratelimit>=2.2.0
+
+# Date/Time Utilities
+python-dateutil>=2.8.0
+pytz>=2022.7
+
+# Async Support (for future enhancements)
+aiohttp>=3.8.0
+asyncio-throttle>=1.0.0
+
+# Security
+cryptography>=40.0.0
+
+# Excel Export (optional)
+openpyxl>=3.1.0
+xlsxwriter>=3.1.0
+
+# Progress Bars
+tqdm>=4.65.0
+
+# Concurrent Processing
+concurrent-futures>=3.1.1
