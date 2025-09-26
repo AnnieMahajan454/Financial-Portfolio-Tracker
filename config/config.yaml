@@ -1,0 +1,83 @@
+# Financial Portfolio Tracker Configuration
+
+# Database Configuration
+database:
+  host: localhost
+  port: 5432
+  database: portfolio_tracker
+  user: portfolio_user
+  password: "{{ DB_PASSWORD }}"  # Use environment variable
+  
+# API Keys (use environment variables for security)
+api_keys:
+  alpha_vantage: "{{ ALPHA_VANTAGE_API_KEY }}"
+  news_api: "{{ NEWS_API_KEY }}"
+  
+# Data Sources
+data_sources:
+  primary: yahoo_finance  # Options: yahoo_finance, alpha_vantage
+  backup: alpha_vantage
+  rate_limit: 0.2  # Seconds between API calls
+  
+# Risk Analysis Settings
+risk_analysis:
+  default_confidence_levels: [0.95, 0.99]
+  default_period_days: 252
+  risk_free_rate: 0.02  # 2% annual
+  benchmark_symbol: "^GSPC"  # S&P 500
+  
+# Portfolio Settings
+portfolio:
+  default_currency: USD
+  min_holding_threshold: 0.01  # Minimum position size (1%)
+  rebalancing_threshold: 0.05  # 5% deviation threshold
+  
+# Power BI Integration
+powerbi:
+  export_path: "data/powerbi"
+  export_frequency: daily
+  export_time: "06:00"
+  retention_days: 30
+  file_formats: [csv, json]
+  
+# Logging Configuration
+logging:
+  level: INFO
+  file: logs/portfolio_tracker.log
+  max_size_mb: 100
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+# Application Settings
+application:
+  debug: false
+  timezone: UTC
+  date_format: "%Y-%m-%d"
+  datetime_format: "%Y-%m-%d %H:%M:%S"
+  
+# Security Settings
+security:
+  use_ssl: true
+  token_expiry_hours: 24
+  max_login_attempts: 5
+  
+# Performance Settings
+performance:
+  cache_timeout: 300  # 5 minutes
+  batch_size: 1000
+  max_concurrent_requests: 10
+  
+# Notification Settings
+notifications:
+  email:
+    enabled: false
+    smtp_server: ""
+    smtp_port: 587
+    username: ""
+    password: "{{ EMAIL_PASSWORD }}"
+  
+  alerts:
+    portfolio_loss_threshold: -0.05  # 5% loss
+    risk_metric_threshold:
+      var_95: -0.02  # 2% VaR threshold
+      volatility: 0.30  # 30% volatility threshold
