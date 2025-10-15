@@ -88,3 +88,41 @@ CREATE TABLE holdings (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(portfolio_id, security_id)
 );
+
+-- ========================================
+-- MARKET DATA TABLES
+-- ========================================
+
+-- Historical Price Data
+CREATE TABLE price_history (
+    price_id SERIAL PRIMARY KEY,
+    security_id INTEGER NOT NULL REFERENCES securities(security_id),
+    price_date DATE NOT NULL,
+    open_price DECIMAL(12,4),
+    high_price DECIMAL(12,4),
+    low_price DECIMAL(12,4),
+    close_price DECIMAL(12,4) NOT NULL,
+    adjusted_close DECIMAL(12,4),
+    volume BIGINT,
+    dividend_amount DECIMAL(8,4) DEFAULT 0,
+    split_ratio DECIMAL(8,4) DEFAULT 1,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(security_id, price_date)
+);
+
+-- Real-time Price Data
+CREATE TABLE real_time_prices (
+    rt_price_id SERIAL PRIMARY KEY,
+    security_id INTEGER NOT NULL REFERENCES securities(security_id),
+    current_price DECIMAL(12,4) NOT NULL,
+    previous_close DECIMAL(12,4),
+    change_amount DECIMAL(12,4),
+    change_percent DECIMAL(8,4),
+    bid_price DECIMAL(12,4),
+    ask_price DECIMAL(12,4),
+    day_high DECIMAL(12,4),
+    day_low DECIMAL(12,4),
+    volume BIGINT,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(security_id)
+);
