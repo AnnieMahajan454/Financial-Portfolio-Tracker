@@ -171,3 +171,22 @@ CREATE TABLE risk_metrics (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(portfolio_id, calculation_date)
 );
+
+-- ========================================
+-- INDEXES FOR PERFORMANCE
+-- ========================================
+
+-- Price History Indexes
+CREATE INDEX idx_price_history_security_date ON price_history(security_id, price_date DESC);
+CREATE INDEX idx_price_history_date ON price_history(price_date DESC);
+
+-- Holdings Indexes
+CREATE INDEX idx_holdings_portfolio ON holdings(portfolio_id);
+CREATE INDEX idx_holdings_security ON holdings(security_id);
+
+-- Transaction Indexes
+CREATE INDEX idx_portfolio_performance_date ON portfolio_performance(portfolio_id, snapshot_date DESC);
+CREATE INDEX idx_risk_metrics_date ON risk_metrics(portfolio_id, calculation_date DESC);
+
+-- Real-time Prices Index
+CREATE INDEX idx_realtime_prices_updated ON real_time_prices(last_updated DESC);
