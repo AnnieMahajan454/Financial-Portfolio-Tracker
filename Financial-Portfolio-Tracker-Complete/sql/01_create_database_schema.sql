@@ -126,3 +126,48 @@ CREATE TABLE real_time_prices (
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(security_id)
 );
+
+-- ========================================
+-- PERFORMANCE AND RISK TABLES
+-- ========================================
+
+-- Portfolio Performance Snapshots
+CREATE TABLE portfolio_performance (
+    performance_id SERIAL PRIMARY KEY,
+    portfolio_id INTEGER NOT NULL REFERENCES portfolios(portfolio_id),
+    snapshot_date DATE NOT NULL,
+    total_market_value DECIMAL(20,2) NOT NULL,
+    total_cost_basis DECIMAL(20,2) NOT NULL,
+    unrealized_pnl DECIMAL(20,2),
+    realized_pnl DECIMAL(20,2),
+    total_pnl DECIMAL(20,2),
+    day_change DECIMAL(20,2),
+    day_change_percent DECIMAL(8,4),
+    total_return_percent DECIMAL(8,4),
+    annualized_return DECIMAL(8,4),
+    cash_balance DECIMAL(20,2) DEFAULT 0,
+    number_of_positions INTEGER,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(portfolio_id, snapshot_date)
+);
+
+-- Risk Metrics
+CREATE TABLE risk_metrics (
+    risk_id SERIAL PRIMARY KEY,
+    portfolio_id INTEGER NOT NULL REFERENCES portfolios(portfolio_id),
+    calculation_date DATE NOT NULL,
+    beta DECIMAL(6,4),
+    alpha DECIMAL(8,4),
+    sharpe_ratio DECIMAL(8,4),
+    sortino_ratio DECIMAL(8,4),
+    information_ratio DECIMAL(8,4),
+    volatility DECIMAL(8,4),
+    var_95 DECIMAL(8,4),
+    var_99 DECIMAL(8,4),
+    cvar_95 DECIMAL(8,4),
+    max_drawdown DECIMAL(8,4),
+    tracking_error DECIMAL(8,4),
+    correlation_to_benchmark DECIMAL(6,4),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(portfolio_id, calculation_date)
+);
