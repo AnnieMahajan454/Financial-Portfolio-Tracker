@@ -54,3 +54,37 @@ CREATE TABLE securities (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(symbol, exchange_id)
 );
+
+-- ========================================
+-- PORTFOLIO MANAGEMENT TABLES
+-- ========================================
+
+-- Portfolio Master
+CREATE TABLE portfolios (
+    portfolio_id SERIAL PRIMARY KEY,
+    portfolio_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    portfolio_type VARCHAR(20) CHECK (portfolio_type IN ('Individual', 'Institutional', 'Fund', 'Index')),
+    base_currency VARCHAR(3) DEFAULT 'USD',
+    benchmark_security_id INTEGER REFERENCES securities(security_id),
+    inception_date DATE NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Portfolio Holdings
+CREATE TABLE holdings (
+    holding_id SERIAL PRIMARY KEY,
+    portfolio_id INTEGER NOT NULL REFERENCES portfolios(portfolio_id),
+    security_id INTEGER NOT NULL REFERENCES securities(security_id),
+    quantity DECIMAL(18,6) NOT NULL,
+    average_cost DECIMAL(12,4) NOT NULL,
+    purchase_date DATE,
+    sector_allocation DECIMAL(5,2),
+    target_allocation DECIMAL(5,2),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(portfolio_id, security_id)
+);
