@@ -1,7 +1,0 @@
-{
-  "host": "localhost",
-  "port": 5432,
-  "database": "portfolio_tracker",
-  "user": "postgres",
-  "password": "your_password_here"
-}
