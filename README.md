@@ -1,4 +1,4 @@
-# 💼 Financial Portfolio Tracker
+# Financial Portfolio Tracker
 
 Professional portfolio management system with real-time market data integration and advanced analytics.
 
@@ -7,7 +7,7 @@ Professional portfolio management system with real-time market data integration 
 [![Power BI](https://img.shields.io/badge/Analytics-Power%20BI-yellow.svg)](https://powerbi.microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)
 
-## 🚀 Features
+## Features
 
 - **Real-time Market Data**: Live price feeds from Yahoo Finance API
 - **Portfolio Management**: Track multiple portfolios with detailed position analysis
@@ -18,7 +18,7 @@ Professional portfolio management system with real-time market data integration 
 - **Export Capabilities**: CSV exports for external analysis and reporting
 - **Risk Analytics**: Beta analysis, concentration risk, and diversification metrics
 
-## 📊 Live Demo Results
+## Live Demo Results
 
 ```
 💼 PORTFOLIO PERFORMANCE SUMMARY
@@ -39,7 +39,7 @@ Symbol               Company Live_Price Market_Value Total_Return
 
 *Results from live Yahoo Finance API data as of October 2025*
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 Financial-Portfolio-Tracker/
@@ -59,7 +59,7 @@ Financial-Portfolio-Tracker/
 └── README.md                       # This documentation
 ```
 
-## 🛠️ Quick Setup
+## Quick Setup
 
 ### Prerequisites
 - Python 3.8+
@@ -92,7 +92,7 @@ Financial-Portfolio-Tracker/
    - ✅ Display comprehensive performance analytics
    - ✅ Export data to CSV files
 
-## 📋 Database Schema
+## Database Schema
 
 ### Core Tables
 - **portfolios**: Portfolio definitions and metadata
@@ -109,7 +109,7 @@ Financial-Portfolio-Tracker/
 - **sector_allocation**: Sector-wise portfolio breakdown
 - **risk_metrics**: Risk analysis and diversification metrics
 
-## 🔧 Usage Examples
+## Usage Examples
 
 ### Basic Portfolio Operations
 
@@ -176,7 +176,7 @@ print(f"Number of Positions: {analytics['number_of_positions']}")
 tracker.export_portfolio_data('Growth Portfolio', 'exports/')
 ```
 
-## 📊 Power BI Integration
+## Power BI Integration
 
 ### Quick Setup
 1. Open Power BI Desktop
@@ -192,7 +192,7 @@ tracker.export_portfolio_data('Growth Portfolio', 'exports/')
 
 See `powerbi/README_PowerBI.md` for detailed setup instructions.
 
-## 🔍 Analytics Features
+## Analytics Features
 
 ### Performance Metrics
 - **Total Return %**: Comprehensive return calculations
@@ -212,7 +212,7 @@ See `powerbi/README_PowerBI.md` for detailed setup instructions.
 - **Company Fundamentals**: P/E ratios, market cap, sector info
 - **Volume Analysis**: Trading activity metrics
 
-## 📈 Export Capabilities
+## Export Capabilities
 
 All data can be exported to CSV format:
 - Portfolio performance summaries
@@ -231,7 +231,7 @@ tracker.export_portfolio_data('Portfolio Name', 'exports/')
 # - Portfolio_Name_summary_20241016_143022.csv
 ```
 
-## 🚨 System Requirements
+## System Requirements
 
 - **Memory**: Minimum 4GB RAM (8GB recommended for large portfolios)
 - **Storage**: 1GB available space for database and exports
@@ -239,7 +239,7 @@ tracker.export_portfolio_data('Portfolio Name', 'exports/')
 - **Python**: Version 3.8 or higher
 - **Database**: SQLite3 (included with Python installation)
 
-## 🔐 Security & Privacy
+## Security & Privacy
 
 - **Local Storage**: All data stored locally in SQLite database
 - **Read-only APIs**: Market data accessed via read-only Yahoo Finance API
@@ -247,7 +247,7 @@ tracker.export_portfolio_data('Portfolio Name', 'exports/')
 - **Privacy-focused**: No data transmitted to external services
 - **Audit Trail**: Complete transaction history with timestamps
 
-## 🛠️ Advanced Configuration
+## Advanced Configuration
 
 ### Custom Market Data Sources
 Extend the `MarketDataService` class to integrate additional data providers:
@@ -278,7 +278,7 @@ JOIN portfolios port ON p.portfolio_id = port.portfolio_id;
 - **Caching**: Implement caching for frequently accessed market data
 - **Connection Pooling**: Use connection pooling for high-volume operations
 
-## 🧪 Testing
+## Testing
 
 Run the comprehensive demo to verify installation:
 
@@ -293,7 +293,7 @@ Expected output:
 - ✅ Analytics calculations completed
 - ✅ Data exported successfully
 
-## 🔄 Data Updates
+## Data Updates
 
 ### Manual Updates
 ```bash
@@ -312,14 +312,14 @@ Set up scheduled tasks (cron/Task Scheduler) to run market data updates:
 30 9 * * 1-5 cd /path/to/project && python python/demo_database_setup.py
 ```
 
-## 📚 Documentation
+## Documentation
 
 - **Main README**: Complete system overview (this file)
 - **Power BI Guide**: `powerbi/README_PowerBI.md`
 - **SQL Schema**: Detailed comments in `sql/*.sql` files
 - **API Documentation**: Docstrings in Python source files
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
@@ -327,11 +327,7 @@ Set up scheduled tasks (cron/Task Scheduler) to run market data updates:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Yahoo Finance API**: Real-time market data
 - **SQLite**: Lightweight, serverless database
@@ -339,23 +335,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Power BI**: Professional analytics and visualization
 - **Python Community**: Excellent libraries and documentation
 
-## 📞 Support
-
-- **Issues**: Use GitHub Issues for bug reports and feature requests
-- **Documentation**: Check inline code comments and SQL schema
-- **Community**: Discussions welcome in GitHub Discussions
-
 ---
 
-## 🎯 Professional Portfolio Management Made Simple
+## Professional Portfolio Management Made Simple
 
 **Transform your investment tracking with institutional-grade analytics and real-time market data integration.**
-
-### Key Differentiators:
-✨ **Enterprise-Ready**: Professional database design with full audit trails  
-📊 **Real-Time Analytics**: Live market data integration with Yahoo Finance API  
-🔧 **Power BI Integration**: Production-ready business intelligence dashboards  
-📈 **Advanced Metrics**: Risk analytics, sector allocation, performance attribution  
-🚀 **Easy Setup**: One-command demo with sample data and live results  
 
 *Built for investors, analysts, and portfolio managers who demand professional-grade tools.*
