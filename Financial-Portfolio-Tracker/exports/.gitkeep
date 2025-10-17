@@ -1,3 +1,0 @@
-# Keep this directory in git
-# Export files (CSV) will be generated here by the application
-# These files are excluded in .gitignore but the directory structure is preserved
