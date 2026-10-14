@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "mkTreemap",
+  "position": {
+    "x": 16,
+    "y": 176,
+    "z": 8000,
+    "width": 760,
+    "height": 532,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "treemap",
+    "query": {
+      "queryState": {
+        "Group": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_security"
+                    }
+                  },
+                  "Property": "ticker"
+                }
+              },
+              "queryRef": "dim_security.ticker",
+              "nativeQueryRef": "Ticker",
+              "displayName": "Ticker"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_watchlist"
+                    }
+                  },
+                  "Property": "Dollar Volume 30d"
+                }
+              },
+              "queryRef": "fact_watchlist.Dollar Volume 30d",
+              "nativeQueryRef": "Dollar Volume 30d"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_watchlist"
+                        }
+                      },
+                      "Property": "Move Color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Today''s move (box size = 30-day traded value)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "hoTable",
+  "position": {
+    "x": 16,
+    "y": 248,
+    "z": 9000,
+    "width": 836,
+    "height": 460,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_security"
+                    }
+                  },
+                  "Property": "ticker"
+                }
+              },
+              "queryRef": "dim_security.ticker",
+              "nativeQueryRef": "Ticker",
+              "displayName": "Ticker"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_security"
+                    }
+                  },
+                  "Property": "name"
+                }
+              },
+              "queryRef": "dim_security.name",
+              "nativeQueryRef": "Name",
+              "displayName": "Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Shares"
+                }
+              },
+              "queryRef": "fact_position.Shares",
+              "nativeQueryRef": "Shares"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Avg Cost"
+                }
+              },
+              "queryRef": "fact_position.Avg Cost",
+              "nativeQueryRef": "Avg Cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Last Price"
+                }
+              },
+              "queryRef": "fact_position.Last Price",
+              "nativeQueryRef": "Last Price"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Market Value"
+                }
+              },
+              "queryRef": "fact_position.Market Value",
+              "nativeQueryRef": "Market Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Position Weight"
+                }
+              },
+              "queryRef": "fact_position.Position Weight",
+              "nativeQueryRef": "Weight",
+              "displayName": "Weight"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Unrealized %"
+                }
+              },
+              "queryRef": "fact_position.Unrealized %",
+              "nativeQueryRef": "Unrealized %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Day P&L"
+                }
+              },
+              "queryRef": "fact_position.Day P&L",
+              "nativeQueryRef": "Day P&L"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_position"
+                  }
+                },
+                "Property": "Market Value"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_position"
+                        }
+                      },
+                      "Property": "P&L Color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "fact_position.Unrealized %"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_position"
+                        }
+                      },
+                      "Property": "Day P&L Color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "fact_position.Day P&L"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Positions'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

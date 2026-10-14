@@ -1,0 +1,220 @@
+table fact_watchlist
+	lineageTag: 487807f1-cc23-5955-a133-0bec683ea545
+
+	measure 'Universe Size' = COUNTROWS ( fact_watchlist )
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: 2b56929d-3f89-546b-8f63-98590251e4a1
+
+	measure 'Advancers' = CALCULATE ( COUNTROWS ( fact_watchlist ), fact_watchlist[day_change_pct] > 0 )
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: 5f0eb799-b3c3-537f-9d2b-9266cd96ea5f
+
+	measure 'Decliners' = CALCULATE ( COUNTROWS ( fact_watchlist ), fact_watchlist[day_change_pct] < 0 )
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: ce0efe1b-1f71-518a-8e09-392435632c8f
+
+	measure 'Median Move' = MEDIAN ( fact_watchlist[day_change_pct] )
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: Market
+		lineageTag: 8a3fb391-651a-5163-8fd9-5fa3910bb417
+
+	measure 'Day Move %' = AVERAGE ( fact_watchlist[day_change_pct] )
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: Market
+		lineageTag: 2ff99cbf-5425-55d9-9289-ad1b1e46df81
+
+	measure 'Last Trade' = MAX ( fact_watchlist[price] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Market
+		lineageTag: 4aa014bf-c473-5743-aa5f-ec8cbe42bd35
+
+	measure 'Off 52w High' = AVERAGE ( fact_watchlist[pct_off_high] )
+		formatString: 0.0%
+		displayFolder: Market
+		lineageTag: 461c42c8-a206-5524-bd3c-85434cde233a
+
+	measure 'Near 52w High' = CALCULATE ( COUNTROWS ( fact_watchlist ), fact_watchlist[pct_off_high] >= -0.02 )
+		formatString: #,0
+		displayFolder: Market
+		lineageTag: 8330ea80-9cd7-5f30-8632-8029bd771036
+
+	measure 'Dollar Volume 30d' =
+			// average daily traded value, used to size the treemap
+			SUMX ( fact_watchlist, fact_watchlist[price] * fact_watchlist[avg_volume_30d] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Market
+		lineageTag: d8021ab5-09dd-5e34-95f9-be06399d5acb
+
+	measure 'Live Quote Coverage' =
+			DIVIDE (
+			    CALCULATE ( COUNTROWS ( fact_watchlist ), fact_watchlist[price_source] = "intraday" ),
+			    [Universe Size]
+			)
+		formatString: 0.0%
+		displayFolder: Market
+		lineageTag: 46082ee8-2f6e-5639-8cbc-1826e8498f51
+
+	measure 'Move Color' =
+			VAR m = [Day Move %]
+			RETURN
+			    SWITCH ( TRUE (),
+			        m >= 0.02, "#116329",
+			        m >= 0.005, "#2DA44E",
+			        m > -0.005, "#AFB8C1",
+			        m > -0.02, "#E5534B",
+			        "#A40E26" )
+		displayFolder: Formatting
+		lineageTag: 3e70c4fc-8876-5886-adb3-3adf408514a6
+
+	column ticker
+		dataType: string
+		isHidden
+		lineageTag: 0de8f75c-c5e9-573f-8ca9-c24d6819bb66
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = User
+
+	column name
+		dataType: string
+		isHidden
+		lineageTag: ac11b36f-4bab-5214-ac66-2ab4198ff08e
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = User
+
+	column sector
+		dataType: string
+		isHidden
+		lineageTag: bfbd6b32-a68a-5185-b1a2-807f374ddcbd
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = User
+
+	column price
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 232ee407-9239-5ec1-9628-713d0982c2e5
+		summarizeBy: none
+		sourceColumn: price
+
+		annotation SummarizationSetBy = User
+
+	column prev_close
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a8ee725c-9c8b-5354-9d25-5a873c5786de
+		summarizeBy: none
+		sourceColumn: prev_close
+
+		annotation SummarizationSetBy = User
+
+	column day_change
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: efd18a2a-a340-5c80-bfdb-9df9af16debe
+		summarizeBy: none
+		sourceColumn: day_change
+
+		annotation SummarizationSetBy = User
+
+	column day_change_pct
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 61da0695-0595-50fb-a1e5-41035cb6f9fa
+		summarizeBy: none
+		sourceColumn: day_change_pct
+
+		annotation SummarizationSetBy = User
+
+	column day_volume
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ff1c1e7-642a-5e7e-a9b5-44918517c14a
+		summarizeBy: none
+		sourceColumn: day_volume
+
+		annotation SummarizationSetBy = User
+
+	column avg_volume_30d
+		dataType: double
+		formatString: #,0.####
+		lineageTag: 5b44be34-86e9-5377-b9b9-d846821608a0
+		summarizeBy: none
+		sourceColumn: avg_volume_30d
+
+		annotation SummarizationSetBy = User
+
+	column high_52w
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 271f78c4-04c9-562a-acd1-227c9466aa16
+		summarizeBy: none
+		sourceColumn: high_52w
+
+		annotation SummarizationSetBy = User
+
+	column low_52w
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 33147cf4-9072-5baf-9e25-174104b8017e
+		summarizeBy: none
+		sourceColumn: low_52w
+
+		annotation SummarizationSetBy = User
+
+	column pct_off_high
+		dataType: double
+		formatString: 0.00%
+		lineageTag: a2e5a008-7353-597c-99cf-ba2c709b50fa
+		summarizeBy: none
+		sourceColumn: pct_off_high
+
+		annotation SummarizationSetBy = User
+
+	column price_source
+		dataType: string
+		lineageTag: 41f8149c-7c43-502f-b7e9-e6ceb1a4aabb
+		summarizeBy: none
+		sourceColumn: price_source
+
+		annotation SummarizationSetBy = User
+
+	column price_time
+		dataType: string
+		lineageTag: 3c88cacc-5b91-5bfe-af95-55d111013bf7
+		summarizeBy: none
+		sourceColumn: price_time
+
+		annotation SummarizationSetBy = User
+
+	column is_held
+		dataType: int64
+		formatString: 0
+		lineageTag: 0fe24c01-c332-5732-8b17-b579266772ec
+		summarizeBy: none
+		sourceColumn: is_held
+
+		annotation SummarizationSetBy = User
+
+	partition fact_watchlist = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("fact_watchlist", {
+				    {"ticker", type text}, {"name", type text}, {"sector", type text},
+				    {"price", Currency.Type}, {"prev_close", Currency.Type}, {"day_change", Currency.Type},
+				    {"day_change_pct", Percentage.Type}, {"day_volume", Int64.Type},
+				    {"avg_volume_30d", type number}, {"high_52w", Currency.Type}, {"low_52w", Currency.Type},
+				    {"pct_off_high", Percentage.Type}, {"price_source", type text}, {"price_time", type text},
+				    {"is_held", Int64.Type}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

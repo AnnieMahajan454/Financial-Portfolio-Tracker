@@ -1,0 +1,99 @@
+{
+  "name": "Portfolio Tracker",
+  "dataColors": [
+    "#0B5CAD",
+    "#8C959F",
+    "#2A9D8F",
+    "#D9822B",
+    "#7A4FB5",
+    "#5B8DEF",
+    "#B07AA1",
+    "#9C755F",
+    "#59A14F",
+    "#EDC948",
+    "#76B7B2",
+    "#BAB0AC"
+  ],
+  "foreground": "#1F2328",
+  "background": "#FFFFFF",
+  "tableAccent": "#0B5CAD",
+  "good": "#1A7F37",
+  "bad": "#C62828",
+  "neutral": "#8C959F",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#1F2328"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#57606A"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 22,
+      "color": "#1F2328"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#D0D7DE"
+              }
+            },
+            "radius": 6
+          }
+        ],
+        "padding": [
+          {
+            "top": 8,
+            "bottom": 8,
+            "left": 10,
+            "right": 10
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F6F8FA"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outspace": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F6F8FA"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

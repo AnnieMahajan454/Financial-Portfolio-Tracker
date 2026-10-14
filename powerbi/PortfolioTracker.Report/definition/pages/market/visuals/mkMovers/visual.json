@@ -1,0 +1,185 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "mkMovers",
+  "position": {
+    "x": 792,
+    "y": 176,
+    "z": 9000,
+    "width": 472,
+    "height": 532,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_security"
+                    }
+                  },
+                  "Property": "ticker"
+                }
+              },
+              "queryRef": "dim_security.ticker",
+              "nativeQueryRef": "Ticker",
+              "displayName": "Ticker"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_security"
+                    }
+                  },
+                  "Property": "name"
+                }
+              },
+              "queryRef": "dim_security.name",
+              "nativeQueryRef": "Name",
+              "displayName": "Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_watchlist"
+                    }
+                  },
+                  "Property": "Last Trade"
+                }
+              },
+              "queryRef": "fact_watchlist.Last Trade",
+              "nativeQueryRef": "Price",
+              "displayName": "Price"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_watchlist"
+                    }
+                  },
+                  "Property": "Day Move %"
+                }
+              },
+              "queryRef": "fact_watchlist.Day Move %",
+              "nativeQueryRef": "Day",
+              "displayName": "Day"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_watchlist"
+                    }
+                  },
+                  "Property": "Off 52w High"
+                }
+              },
+              "queryRef": "fact_watchlist.Off 52w High",
+              "nativeQueryRef": "vs 52w high",
+              "displayName": "vs 52w high"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_watchlist"
+                  }
+                },
+                "Property": "Day Move %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_watchlist"
+                        }
+                      },
+                      "Property": "Move Color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "fact_watchlist.Day Move %"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Movers'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

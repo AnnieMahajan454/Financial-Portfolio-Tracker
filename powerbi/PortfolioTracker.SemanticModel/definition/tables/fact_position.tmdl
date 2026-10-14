@@ -1,0 +1,279 @@
+table fact_position
+	lineageTag: 6435884f-cf56-58b6-9f2c-ba2ac56108b7
+
+	measure 'Market Value' = CALCULATE ( SUM ( fact_position[market_value] ), fact_position[is_open] = 1 )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Holdings
+		lineageTag: f98bc4bf-17f8-505c-aabf-ee1ae81360bd
+
+	measure 'Cost Basis' = CALCULATE ( SUM ( fact_position[cost_basis] ), fact_position[is_open] = 1 )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Holdings
+		lineageTag: d334cdf4-6aa6-5548-9195-3d5dd54e50d2
+
+	measure 'Unrealized P&L' = [Market Value] - [Cost Basis]
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Holdings
+		lineageTag: 4e094217-f84d-5b96-b47d-044a94d2bba6
+
+	measure 'Unrealized %' = DIVIDE ( [Unrealized P&L], [Cost Basis] )
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: Holdings
+		lineageTag: 8b4fb75b-c956-550a-afb1-b97be77750ca
+
+	measure 'Realized P&L' = SUM ( fact_position[realized_pnl] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Holdings
+		lineageTag: d553e1fb-7382-5a72-b856-d42110d0f9cd
+
+	measure 'Day P&L' = CALCULATE ( SUM ( fact_position[day_pnl] ), fact_position[is_open] = 1 )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Holdings
+		lineageTag: 1764dd95-9667-556c-ade7-839d0d5fadd8
+
+	measure 'Day %' =
+			// yesterday's value is today's value minus today's move
+			DIVIDE ( [Day P&L], [Market Value] - [Day P&L] )
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: Holdings
+		lineageTag: 5ff8413c-232e-5465-858f-d635ae3e8830
+
+	measure 'Shares' = CALCULATE ( SUM ( fact_position[qty] ), fact_position[is_open] = 1 )
+		formatString: #,0
+		displayFolder: Holdings
+		lineageTag: 6a8c32a0-eff2-58b3-a007-5082203011e1
+
+	measure 'Avg Cost' = DIVIDE ( [Cost Basis], [Shares] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Holdings
+		lineageTag: c616a057-db36-534d-b23f-235f4279d767
+
+	measure 'Last Price' = CALCULATE ( MAX ( fact_position[price] ), fact_position[is_open] = 1 )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Holdings
+		lineageTag: e32dc071-05ac-5c05-9aa0-5b1f0872227c
+
+	measure 'Names Held' = CALCULATE ( DISTINCTCOUNT ( fact_position[ticker] ), fact_position[is_open] = 1 )
+		formatString: #,0
+		displayFolder: Holdings
+		lineageTag: 4deb98e0-1c58-58f7-9b49-4a1f619b02f0
+
+	measure 'Position Weight' =
+			// share of whatever is on screen: per ticker in the table, per sector in the donut
+			DIVIDE ( [Market Value], CALCULATE ( [Market Value], ALLSELECTED ( dim_security ) ) )
+		formatString: 0.0%
+		displayFolder: Holdings
+		lineageTag: b1f0a03e-ff86-5587-af61-653fe0c310da
+
+	measure 'Top 5 Weight' =
+			VAR top5 = TOPN ( 5, VALUES ( dim_security[ticker] ), [Market Value], DESC )
+			RETURN
+			    DIVIDE ( CALCULATE ( [Market Value], top5 ), CALCULATE ( [Market Value], ALL ( dim_security ) ) )
+		formatString: 0.0%
+		displayFolder: Holdings
+		lineageTag: 1b22d8f0-ad30-53c3-a9c0-f4beab0bd60e
+
+	measure 'P&L Color' = SWITCH ( TRUE (), [Unrealized %] > 0, "#1A7F37", [Unrealized %] < 0, "#C62828", "#57606A" )
+		displayFolder: Formatting
+		lineageTag: 84489776-9098-5b91-af12-75a95e9fe682
+
+	measure 'Day P&L Color' = SWITCH ( TRUE (), [Day P&L] > 0, "#1A7F37", [Day P&L] < 0, "#C62828", "#57606A" )
+		displayFolder: Formatting
+		lineageTag: 51100562-2110-5100-b64b-cc410f92d932
+
+	column portfolio_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: bacaf5b5-fc89-503b-a46a-3401aab17813
+		summarizeBy: none
+		sourceColumn: portfolio_id
+
+		annotation SummarizationSetBy = User
+
+	column portfolio
+		dataType: string
+		isHidden
+		lineageTag: 65da4139-4d36-52c5-9f28-e091909d8f38
+		summarizeBy: none
+		sourceColumn: portfolio
+
+		annotation SummarizationSetBy = User
+
+	column ticker
+		dataType: string
+		isHidden
+		lineageTag: b671dd08-21fb-5509-97af-82969d1c0121
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = User
+
+	column name
+		dataType: string
+		isHidden
+		lineageTag: 6dcebb48-2353-58c1-b303-496a7eef573e
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = User
+
+	column sector
+		dataType: string
+		isHidden
+		lineageTag: 36cb28cf-e34b-5ec4-8d71-8d47af4e5e5e
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = User
+
+	column qty
+		dataType: double
+		formatString: #,0.####
+		lineageTag: 5e3eb68e-4609-55a0-830a-8406cd71d0e1
+		summarizeBy: none
+		sourceColumn: qty
+
+		annotation SummarizationSetBy = User
+
+	column avg_cost
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 0134922a-830e-54f5-b07a-8a02dc4ab107
+		summarizeBy: none
+		sourceColumn: avg_cost
+
+		annotation SummarizationSetBy = User
+
+	column opened_on
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 3f511e4e-6494-5833-8bf8-b19dacc93a74
+		summarizeBy: none
+		sourceColumn: opened_on
+
+		annotation SummarizationSetBy = User
+
+	column cost_basis
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 35108782-609d-517b-bf91-920f51545d2f
+		summarizeBy: none
+		sourceColumn: cost_basis
+
+		annotation SummarizationSetBy = User
+
+	column price
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a92d3404-37e7-5a81-9703-43a4a51a3b68
+		summarizeBy: none
+		sourceColumn: price
+
+		annotation SummarizationSetBy = User
+
+	column prev_close
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 55b69b6d-21ee-57c8-9daf-2538b4fdf147
+		summarizeBy: none
+		sourceColumn: prev_close
+
+		annotation SummarizationSetBy = User
+
+	column market_value
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 2d34d5c5-dbe6-54d4-88e3-63f96bb4105e
+		summarizeBy: none
+		sourceColumn: market_value
+
+		annotation SummarizationSetBy = User
+
+	column unrealized_pnl
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 663087de-7a09-5481-bcb1-93720fb8c827
+		summarizeBy: none
+		sourceColumn: unrealized_pnl
+
+		annotation SummarizationSetBy = User
+
+	column unrealized_pct
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 51c8e283-205a-56d6-9d94-ced9ea219119
+		summarizeBy: none
+		sourceColumn: unrealized_pct
+
+		annotation SummarizationSetBy = User
+
+	column day_pnl
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: cbac2eba-73f7-5afd-ba2e-48d5d39e86be
+		summarizeBy: none
+		sourceColumn: day_pnl
+
+		annotation SummarizationSetBy = User
+
+	column weight
+		dataType: double
+		formatString: 0.00%
+		lineageTag: a449d7f6-bed9-59c9-8bc3-fcdfdacc6677
+		summarizeBy: none
+		sourceColumn: weight
+
+		annotation SummarizationSetBy = User
+
+	column realized_pnl
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: c739bb4a-e1cf-5398-a55b-2acf5afbd5aa
+		summarizeBy: none
+		sourceColumn: realized_pnl
+
+		annotation SummarizationSetBy = User
+
+	column is_open
+		dataType: int64
+		formatString: 0
+		lineageTag: 55e98a4d-7fd5-567a-ac3a-2af46e191a0c
+		summarizeBy: none
+		sourceColumn: is_open
+
+		annotation SummarizationSetBy = User
+
+	column price_source
+		dataType: string
+		lineageTag: 8f3b0c0a-dd8d-5602-9193-755c97c8aec8
+		summarizeBy: none
+		sourceColumn: price_source
+
+		annotation SummarizationSetBy = User
+
+	column price_time
+		dataType: string
+		lineageTag: 43051565-cf32-5013-8efb-07d957663c68
+		summarizeBy: none
+		sourceColumn: price_time
+
+		annotation SummarizationSetBy = User
+
+	partition fact_position = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("fact_position", {
+				    {"portfolio_id", Int64.Type}, {"portfolio", type text}, {"ticker", type text},
+				    {"name", type text}, {"sector", type text}, {"qty", type number},
+				    {"avg_cost", Currency.Type}, {"opened_on", type date}, {"cost_basis", Currency.Type},
+				    {"price", Currency.Type}, {"prev_close", Currency.Type}, {"market_value", Currency.Type},
+				    {"unrealized_pnl", Currency.Type}, {"unrealized_pct", Percentage.Type},
+				    {"day_pnl", Currency.Type}, {"weight", Percentage.Type}, {"realized_pnl", Currency.Type},
+				    {"is_open", Int64.Type}, {"price_source", type text}, {"price_time", type text}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

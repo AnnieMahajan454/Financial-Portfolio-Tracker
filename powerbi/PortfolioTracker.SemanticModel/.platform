@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "PortfolioTracker"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "129c6fe4-72af-417a-9000-dced476dde7f"
+  }
+}

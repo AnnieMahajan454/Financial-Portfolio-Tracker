@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "ovCumulative",
+  "position": {
+    "x": 16,
+    "y": 248,
+    "z": 10000,
+    "width": 820,
+    "height": 300,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "dim_date.Date",
+              "nativeQueryRef": "Date"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_perf_daily"
+                    }
+                  },
+                  "Property": "Cumulative Return"
+                }
+              },
+              "queryRef": "fact_perf_daily.Cumulative Return",
+              "nativeQueryRef": "Portfolio",
+              "displayName": "Portfolio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_perf_daily"
+                    }
+                  },
+                  "Property": "SPY Cumulative Return"
+                }
+              },
+              "queryRef": "fact_perf_daily.SPY Cumulative Return",
+              "nativeQueryRef": "SPY",
+              "displayName": "SPY"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cumulative return vs SPY'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

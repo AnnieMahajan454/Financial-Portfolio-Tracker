@@ -12,8 +12,14 @@ Yahoo Finance ──► marketdata.py ──► SQLite ──► SQL views ─�
                                        quotes      52w range
 ```
 
-Output of `python -m tracker status` after a refresh on 13 Oct 2026, with the
-demo book loaded:
+![Portfolio overview](docs/screenshots/1-overview.png)
+
+| Holdings | Market monitor | Risk |
+| --- | --- | --- |
+| ![Holdings](docs/screenshots/2-holdings.png) | ![Market monitor](docs/screenshots/3-market.png) | ![Risk](docs/screenshots/4-risk.png) |
+
+The same numbers from the command line, `python -m tracker status` after a
+refresh on 13 Oct 2026 with the demo book loaded:
 
 ```text
       portfolio  names market_value unrealized_pnl unrealized_pct day_pnl day_pct     twr sharpe  max_dd beta
@@ -55,7 +61,10 @@ python -m tracker trade "Core Equity" buy MSFT 25 512.40 --date 2026-10-01 --fee
 python -m tracker import my_trades.csv      # portfolio,ticker,trade_date,side,qty,price[,fees]
 ```
 
-The Power BI side is set up in [powerbi/README.md](powerbi/README.md).
+For the dashboard, open `powerbi/PortfolioTracker.pbip` in Power BI Desktop
+and click Refresh. If your clone isn't at the path in the `ExportFolder`
+parameter, change it under Transform data → Edit parameters. The model and
+pages are described in [powerbi/README.md](powerbi/README.md).
 
 ## Layout
 
@@ -72,8 +81,10 @@ sql/
   002_views.sql   v_price, v_watchlist, v_position_live, v_portfolio_live,
                   v_sector_exposure, v_portfolio_daily
 powerbi/
-  queries/        Power Query (M), one file per table
-  measures.dax    DAX measures and the date table
+  PortfolioTracker.pbip            Power BI project (open this)
+  PortfolioTracker.SemanticModel/  model as TMDL: tables, relationships, DAX measures, M queries
+  PortfolioTracker.Report/         4 report pages as PBIR JSON, plus the theme
+docs/screenshots/
 data/universe.csv tickers, names, GICS sectors
 tests/
 ```

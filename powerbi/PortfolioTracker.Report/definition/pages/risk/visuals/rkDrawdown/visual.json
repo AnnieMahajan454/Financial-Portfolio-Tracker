@@ -1,0 +1,97 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "rkDrawdown",
+  "position": {
+    "x": 652,
+    "y": 256,
+    "z": 4000,
+    "width": 612,
+    "height": 240,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "dim_date.Date",
+              "nativeQueryRef": "Date"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_portfolio"
+                    }
+                  },
+                  "Property": "portfolio"
+                }
+              },
+              "queryRef": "dim_portfolio.portfolio",
+              "nativeQueryRef": "Portfolio",
+              "displayName": "Portfolio"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_perf_daily"
+                    }
+                  },
+                  "Property": "Drawdown From Peak"
+                }
+              },
+              "queryRef": "fact_perf_daily.Drawdown From Peak",
+              "nativeQueryRef": "Drawdown",
+              "displayName": "Drawdown"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Drawdown by portfolio'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

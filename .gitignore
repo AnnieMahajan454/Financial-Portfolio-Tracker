@@ -12,3 +12,7 @@ exports/
 .vscode/
 .idea/
 .env
+
+# Power BI project local state
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

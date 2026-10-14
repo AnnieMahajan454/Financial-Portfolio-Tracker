@@ -1,0 +1,36 @@
+table refresh_info
+	lineageTag: d6a2fdab-2100-5768-9d4f-f675f6bdcaca
+
+	measure 'Prices As Of' = "Prices as of " & FORMAT ( MAX ( refresh_info[last_quote_pull] ), "d mmm yyyy hh:nn" ) & " UTC"
+		displayFolder: Market
+		lineageTag: 14390c00-1bf9-5acc-8d58-8a3ffdba740b
+
+	column exported_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 506aa20e-892c-5d4d-92a1-7d1f8396e7f0
+		summarizeBy: none
+		sourceColumn: exported_at
+
+		annotation SummarizationSetBy = User
+
+	column last_quote_pull
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 99164a59-77b0-597b-97e4-7dde193d55ef
+		summarizeBy: none
+		sourceColumn: last_quote_pull
+
+		annotation SummarizationSetBy = User
+
+	partition refresh_info = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("refresh_info", {
+				    {"exported_at", type datetimezone}, {"last_quote_pull", type datetimezone}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

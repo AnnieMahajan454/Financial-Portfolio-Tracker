@@ -1,0 +1,35 @@
+relationship 69dfc6cc-8bc3-5e82-8b91-4e229033b596
+	fromColumn: fact_position.portfolio_id
+	toColumn: dim_portfolio.portfolio_id
+
+relationship e3d5b363-3309-5b01-9c96-e701c41d38ac
+	fromColumn: fact_perf_daily.portfolio_id
+	toColumn: dim_portfolio.portfolio_id
+
+relationship 3de6f0fb-3d07-5799-bfe7-8864b4a97740
+	fromColumn: fact_trade.portfolio_id
+	toColumn: dim_portfolio.portfolio_id
+
+relationship 33e74471-9a0a-5bec-a8e5-b122598d3b04
+	fromColumn: risk_summary.portfolio_id
+	toColumn: dim_portfolio.portfolio_id
+
+relationship 42411d75-9acc-5475-b10d-3c696993faa0
+	fromColumn: fact_position.ticker
+	toColumn: dim_security.ticker
+
+relationship 48103afb-0fdf-5875-b4d4-b37346661070
+	fromColumn: fact_trade.ticker
+	toColumn: dim_security.ticker
+
+relationship 6dec5706-652b-566d-b892-8fed98b133c8
+	fromColumn: fact_watchlist.ticker
+	toColumn: dim_security.ticker
+
+relationship f2c44530-c427-512a-addf-df158527f728
+	fromColumn: fact_perf_daily.bar_date
+	toColumn: dim_date.Date
+
+relationship f14db52e-b1b6-5667-9cea-895b3b619cf1
+	fromColumn: fact_trade.trade_date
+	toColumn: dim_date.Date

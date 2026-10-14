@@ -1,0 +1,47 @@
+table dim_date
+	lineageTag: dadf1863-531f-5d79-8c79-f0eba227c27e
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: 499010c0-4615-5863-b644-6b3c9ec0ae92
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = User
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 0825685c-fef9-55ec-a88e-b9263fb4320e
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = User
+
+	column Month
+		dataType: string
+		lineageTag: 2e9646d1-13e8-506b-b24d-eac9e12b18fe
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = User
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    // one row per calendar day across the performance history
+				    Start = List.Min(fact_perf_daily[bar_date]),
+				    End = List.Max(fact_perf_daily[bar_date]),
+				    Dates = List.Dates(Start, Duration.Days(End - Start) + 1, #duration(1, 0, 0, 0)),
+				    AsTable = Table.FromList(Dates, Splitter.SplitByNothing(), {"Date"}),
+				    Typed = Table.TransformColumnTypes(AsTable, {{"Date", type date}}),
+				    Year = Table.AddColumn(Typed, "Year", each Date.Year([Date]), Int64.Type),
+				    Month = Table.AddColumn(Year, "Month", each Date.ToText([Date], "yyyy-MM"), type text)
+				in
+				    Month
+
+	annotation PBI_ResultType = Table

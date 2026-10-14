@@ -1,0 +1,165 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "rkTable",
+  "position": {
+    "x": 16,
+    "y": 72,
+    "z": 2000,
+    "width": 1248,
+    "height": 168,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_portfolio"
+                    }
+                  },
+                  "Property": "portfolio"
+                }
+              },
+              "queryRef": "dim_portfolio.portfolio",
+              "nativeQueryRef": "Portfolio",
+              "displayName": "Portfolio"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_summary"
+                    }
+                  },
+                  "Property": "total_return"
+                }
+              },
+              "queryRef": "risk_summary.total_return",
+              "nativeQueryRef": "Total return",
+              "displayName": "Total return"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_summary"
+                    }
+                  },
+                  "Property": "ann_volatility"
+                }
+              },
+              "queryRef": "risk_summary.ann_volatility",
+              "nativeQueryRef": "Volatility (ann.)",
+              "displayName": "Volatility (ann.)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_summary"
+                    }
+                  },
+                  "Property": "sharpe"
+                }
+              },
+              "queryRef": "risk_summary.sharpe",
+              "nativeQueryRef": "Sharpe",
+              "displayName": "Sharpe"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_summary"
+                    }
+                  },
+                  "Property": "max_drawdown"
+                }
+              },
+              "queryRef": "risk_summary.max_drawdown",
+              "nativeQueryRef": "Max drawdown",
+              "displayName": "Max drawdown"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_summary"
+                    }
+                  },
+                  "Property": "beta"
+                }
+              },
+              "queryRef": "risk_summary.beta",
+              "nativeQueryRef": "Beta vs SPY",
+              "displayName": "Beta vs SPY"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_summary"
+                    }
+                  },
+                  "Property": "top5_weight"
+                }
+              },
+              "queryRef": "risk_summary.top5_weight",
+              "nativeQueryRef": "Top 5 weight",
+              "displayName": "Top 5 weight"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "risk_summary"
+                    }
+                  },
+                  "Property": "days"
+                }
+              },
+              "queryRef": "risk_summary.days",
+              "nativeQueryRef": "Days",
+              "displayName": "Days"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Summary'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+expression ExportFolder = "C:\Users\annie\Downloads\Financial-Portfolio-Tracker-main\Financial-Portfolio-Tracker-main\exports\powerbi" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: 3b22e511-bfbe-5c24-a98f-83b2b88f57ca
+
+	annotation PBI_ResultType = Text
+
+expression fnLoadExport =
+		(name as text, types as list) as table =>
+		let
+		    // CSVs written by `python -m tracker refresh`; blank cells become null before typing
+		    Source = Csv.Document(
+		        File.Contents(ExportFolder & "\" & name & ".csv"),
+		        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+		    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+		    Nulls = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+		    Typed = Table.TransformColumnTypes(Nulls, types, "en-US")
+		in
+		    Typed
+	lineageTag: 1033f6d9-8195-5064-8ad0-07826100729c
+
+	annotation PBI_ResultType = Function

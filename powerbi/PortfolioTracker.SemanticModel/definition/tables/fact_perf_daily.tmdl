@@ -1,0 +1,159 @@
+table fact_perf_daily
+	lineageTag: a944f08f-fa21-5dd3-b58e-88ddaae5313a
+
+	measure 'Period Return' =
+			// twr_index already strips out deposits and withdrawals
+			VAR d0 = MIN ( fact_perf_daily[bar_date] )
+			VAR d1 = MAX ( fact_perf_daily[bar_date] )
+			VAR i0 = CALCULATE ( MAX ( fact_perf_daily[twr_index] ), fact_perf_daily[bar_date] = d0 )
+			VAR i1 = CALCULATE ( MAX ( fact_perf_daily[twr_index] ), fact_perf_daily[bar_date] = d1 )
+			RETURN
+			    IF ( HASONEVALUE ( dim_portfolio[portfolio_id] ), DIVIDE ( i1, i0 ) - 1 )
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: Performance
+		lineageTag: cb374e2d-3ae7-5b97-b174-fb6f2ecc254d
+
+	measure 'SPY Period Return' =
+			VAR d0 = MIN ( fact_perf_daily[bar_date] )
+			VAR d1 = MAX ( fact_perf_daily[bar_date] )
+			VAR b0 = CALCULATE ( MAX ( fact_perf_daily[bench_index] ), fact_perf_daily[bar_date] = d0 )
+			VAR b1 = CALCULATE ( MAX ( fact_perf_daily[bench_index] ), fact_perf_daily[bar_date] = d1 )
+			RETURN
+			    IF ( HASONEVALUE ( dim_portfolio[portfolio_id] ), DIVIDE ( b1, b0 ) - 1 )
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: Performance
+		lineageTag: ab3f6cf2-5b40-5161-8ac7-6cb83194e758
+
+	measure 'Excess vs SPY' = [Period Return] - [SPY Period Return]
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: Performance
+		lineageTag: 2fd93279-94f8-59d6-88e8-79383c3f9685
+
+	measure 'Cumulative Return' =
+			// rebased to 0% at the start of the date slicer
+			VAR startDate = CALCULATE ( MIN ( fact_perf_daily[bar_date] ), ALLSELECTED ( dim_date ) )
+			VAR base =
+			    CALCULATE ( MAX ( fact_perf_daily[twr_index] ), REMOVEFILTERS ( dim_date ), fact_perf_daily[bar_date] = startDate )
+			VAR cur = MAX ( fact_perf_daily[twr_index] )  -- blank on weekends and holidays
+			RETURN
+			    IF ( HASONEVALUE ( dim_portfolio[portfolio_id] ) && NOT ISBLANK ( cur ), DIVIDE ( cur, base ) - 1 )
+		formatString: 0.0%
+		displayFolder: Performance
+		lineageTag: 9f6797e2-3743-5a98-bd4d-f1c630124efc
+
+	measure 'SPY Cumulative Return' =
+			VAR startDate = CALCULATE ( MIN ( fact_perf_daily[bar_date] ), ALLSELECTED ( dim_date ) )
+			VAR base =
+			    CALCULATE ( MAX ( fact_perf_daily[bench_index] ), REMOVEFILTERS ( dim_date ), fact_perf_daily[bar_date] = startDate )
+			VAR cur = MAX ( fact_perf_daily[bench_index] )
+			RETURN
+			    IF ( HASONEVALUE ( dim_portfolio[portfolio_id] ) && NOT ISBLANK ( cur ), DIVIDE ( cur, base ) - 1 )
+		formatString: 0.0%
+		displayFolder: Performance
+		lineageTag: 108904bd-f35b-5403-bf45-6792107ebb25
+
+	measure 'Drawdown From Peak' =
+			// from the running peak inside the selected window
+			VAR d = MAX ( dim_date[Date] )
+			VAR startDate = CALCULATE ( MIN ( fact_perf_daily[bar_date] ), ALLSELECTED ( dim_date ) )
+			VAR peak =
+			    CALCULATE ( MAX ( fact_perf_daily[twr_index] ), REMOVEFILTERS ( dim_date ),
+			                fact_perf_daily[bar_date] >= startDate, fact_perf_daily[bar_date] <= d )
+			VAR cur = MAX ( fact_perf_daily[twr_index] )
+			RETURN
+			    IF ( HASONEVALUE ( dim_portfolio[portfolio_id] ) && NOT ISBLANK ( cur ), DIVIDE ( cur, peak ) - 1 )
+		formatString: 0.0%
+		displayFolder: Performance
+		lineageTag: ae0f27f3-e18f-5440-be19-8abd398a4e0a
+
+	measure 'Ann. Volatility' = STDEV.S ( fact_perf_daily[daily_return] ) * SQRT ( 252 )
+		formatString: 0.0%
+		displayFolder: Performance
+		lineageTag: 0f960978-07d4-5c30-81fa-f85efb22eb8a
+
+	column portfolio_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: e845773f-6c01-5aa7-bc6c-b25735e4ef40
+		summarizeBy: none
+		sourceColumn: portfolio_id
+
+		annotation SummarizationSetBy = User
+
+	column bar_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 1d0e9703-f97d-5277-a4ce-371bf3b775de
+		summarizeBy: none
+		sourceColumn: bar_date
+
+		annotation SummarizationSetBy = User
+
+	column market_value
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 03a5c704-c55b-549f-a703-a0479e8e00c6
+		summarizeBy: none
+		sourceColumn: market_value
+
+		annotation SummarizationSetBy = User
+
+	column net_flow
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 706f2e1c-dc7f-5224-a320-bc0060427791
+		summarizeBy: none
+		sourceColumn: net_flow
+
+		annotation SummarizationSetBy = User
+
+	column daily_return
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 5eade7f4-1443-5f16-858b-7e84fef81977
+		summarizeBy: none
+		sourceColumn: daily_return
+
+		annotation SummarizationSetBy = User
+
+	column twr_index
+		dataType: double
+		formatString: #,0.####
+		lineageTag: 57b39de7-c9c4-5ea9-9eb8-a5d8739d63e4
+		summarizeBy: none
+		sourceColumn: twr_index
+
+		annotation SummarizationSetBy = User
+
+	column drawdown
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 1c699080-6654-51d0-9030-68d2de581118
+		summarizeBy: none
+		sourceColumn: drawdown
+
+		annotation SummarizationSetBy = User
+
+	column bench_index
+		dataType: double
+		formatString: #,0.####
+		lineageTag: 205802a3-4ae0-5ba3-98a9-7076f91307ea
+		summarizeBy: none
+		sourceColumn: bench_index
+
+		annotation SummarizationSetBy = User
+
+	partition fact_perf_daily = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("fact_perf_daily", {
+				    {"portfolio_id", Int64.Type}, {"bar_date", type date}, {"market_value", Currency.Type},
+				    {"net_flow", Currency.Type}, {"daily_return", Percentage.Type}, {"twr_index", type number},
+				    {"drawdown", Percentage.Type}, {"bench_index", type number}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,56 @@
+table dim_security
+	lineageTag: 2010d638-abcc-5402-8f81-d41f528689c1
+
+	column ticker
+		dataType: string
+		lineageTag: 0eb15093-f1b9-5af4-ad82-82eb755fe70a
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = User
+
+	column name
+		dataType: string
+		lineageTag: 35c954d3-bb29-5590-a067-35bd26ba0d84
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = User
+
+	column sector
+		dataType: string
+		lineageTag: fbf6e3c7-5780-5a19-ae3f-b4a243973e78
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = User
+
+	column kind
+		dataType: string
+		lineageTag: a92fa10e-70a2-5b6c-988e-71a165bf8366
+		summarizeBy: none
+		sourceColumn: kind
+
+		annotation SummarizationSetBy = User
+
+	column is_active
+		dataType: int64
+		formatString: 0
+		lineageTag: 5106caf6-299a-5e36-9023-0f64c68426e3
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = User
+
+	partition dim_security = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("dim_security", {
+				    {"ticker", type text}, {"name", type text}, {"sector", type text}, {"kind", type text},
+				    {"is_active", Int64.Type}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

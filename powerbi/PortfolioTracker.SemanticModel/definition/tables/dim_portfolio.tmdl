@@ -1,0 +1,40 @@
+table dim_portfolio
+	lineageTag: def9056b-b51d-58f4-9421-af95b49a4738
+
+	column portfolio_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 22104e1c-4968-516f-9e30-78f3ecf014a2
+		summarizeBy: none
+		sourceColumn: portfolio_id
+
+		annotation SummarizationSetBy = User
+
+	column portfolio
+		dataType: string
+		lineageTag: 94e7cf29-0c5a-530b-bad7-7761d5348dc2
+		summarizeBy: none
+		sourceColumn: portfolio
+
+		annotation SummarizationSetBy = User
+
+	column strategy
+		dataType: string
+		lineageTag: 0e189c47-f4c9-5af5-a11d-c6e77aba21ec
+		summarizeBy: none
+		sourceColumn: strategy
+
+		annotation SummarizationSetBy = User
+
+	partition dim_portfolio = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("dim_portfolio", {
+				    {"portfolio_id", Int64.Type}, {"portfolio", type text}, {"strategy", type text}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

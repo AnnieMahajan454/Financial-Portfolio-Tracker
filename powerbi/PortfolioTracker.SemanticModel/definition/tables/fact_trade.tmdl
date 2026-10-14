@@ -1,0 +1,97 @@
+table fact_trade
+	lineageTag: 96541dbd-56ae-518f-92f6-a26a6b6eb982
+
+	column trade_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d890cd70-a22c-55f4-aaa7-0648382fb6be
+		summarizeBy: none
+		sourceColumn: trade_id
+
+		annotation SummarizationSetBy = User
+
+	column portfolio_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 1d6e61af-d271-5690-acb8-8b4835588069
+		summarizeBy: none
+		sourceColumn: portfolio_id
+
+		annotation SummarizationSetBy = User
+
+	column ticker
+		dataType: string
+		isHidden
+		lineageTag: ecefc3e7-6e27-5d28-8246-fcdb1abf954f
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = User
+
+	column trade_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 5905ee52-8844-5dd4-a98c-e6eeb735dc3a
+		summarizeBy: none
+		sourceColumn: trade_date
+
+		annotation SummarizationSetBy = User
+
+	column side
+		dataType: string
+		lineageTag: e998d8d4-7e76-5d19-999c-df7014117c25
+		summarizeBy: none
+		sourceColumn: side
+
+		annotation SummarizationSetBy = User
+
+	column qty
+		dataType: double
+		formatString: #,0.####
+		lineageTag: 7ccac3c0-3d9a-5eca-9b84-030a8761e753
+		summarizeBy: none
+		sourceColumn: qty
+
+		annotation SummarizationSetBy = User
+
+	column price
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 6d2a6f1f-60a4-59e4-bf4b-3193e71ac8ee
+		summarizeBy: none
+		sourceColumn: price
+
+		annotation SummarizationSetBy = User
+
+	column fees
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 83aee13a-f708-565e-8565-d37f5929197f
+		summarizeBy: none
+		sourceColumn: fees
+
+		annotation SummarizationSetBy = User
+
+	column gross_amount
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 065dc631-e2bc-54c2-9db8-72d54e2fbdad
+		summarizeBy: none
+		sourceColumn: gross_amount
+
+		annotation SummarizationSetBy = User
+
+	partition fact_trade = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("fact_trade", {
+				    {"trade_id", Int64.Type}, {"portfolio_id", Int64.Type}, {"ticker", type text},
+				    {"trade_date", type date}, {"side", type text}, {"qty", type number},
+				    {"price", Currency.Type}, {"fees", Currency.Type}, {"gross_amount", Currency.Type}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

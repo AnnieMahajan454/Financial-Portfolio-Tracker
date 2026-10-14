@@ -1,0 +1,99 @@
+table risk_summary
+	lineageTag: a23cc6ed-63d1-578a-90bb-eece4a0ceae8
+
+	column portfolio_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 26eb756a-67ad-5216-b1ad-555ab6754ea6
+		summarizeBy: none
+		sourceColumn: portfolio_id
+
+		annotation SummarizationSetBy = User
+
+	column as_of
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 630e827f-343a-5615-b352-25e0002ca956
+		summarizeBy: none
+		sourceColumn: as_of
+
+		annotation SummarizationSetBy = User
+
+	column days
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c3f52e2-0130-51f6-af07-ead42bfe12d5
+		summarizeBy: none
+		sourceColumn: days
+
+		annotation SummarizationSetBy = User
+
+	column total_return
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 4faeb180-9064-586a-8200-215869b5fb53
+		summarizeBy: none
+		sourceColumn: total_return
+
+		annotation SummarizationSetBy = User
+
+	column ann_volatility
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 71d6214f-6540-55ca-a751-65ed426d274f
+		summarizeBy: none
+		sourceColumn: ann_volatility
+
+		annotation SummarizationSetBy = User
+
+	column sharpe
+		dataType: double
+		formatString: 0.00
+		lineageTag: a5f2d636-378c-5e3f-9911-2cc3180d85a5
+		summarizeBy: none
+		sourceColumn: sharpe
+
+		annotation SummarizationSetBy = User
+
+	column max_drawdown
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 1b876042-68f3-52d8-837b-05543ac7c2e2
+		summarizeBy: none
+		sourceColumn: max_drawdown
+
+		annotation SummarizationSetBy = User
+
+	column beta
+		dataType: double
+		formatString: 0.00
+		lineageTag: f2f56d1d-d95e-550c-9ac6-a72ab6db48ff
+		summarizeBy: none
+		sourceColumn: beta
+
+		annotation SummarizationSetBy = User
+
+	column top5_weight
+		dataType: double
+		formatString: 0.00%
+		lineageTag: c72adc17-752f-558e-9ac2-daa80fd823bc
+		summarizeBy: none
+		sourceColumn: top5_weight
+
+		annotation SummarizationSetBy = User
+
+	partition risk_summary = m
+		mode: import
+		source =
+				let
+				    Source = fnLoadExport("risk_summary", {
+				    {"portfolio_id", Int64.Type}, {"as_of", type date}, {"days", Int64.Type},
+				    {"total_return", Percentage.Type}, {"ann_volatility", Percentage.Type},
+				    {"sharpe", type number}, {"max_drawdown", Percentage.Type}, {"beta", type number},
+				    {"top5_weight", Percentage.Type}
+				})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

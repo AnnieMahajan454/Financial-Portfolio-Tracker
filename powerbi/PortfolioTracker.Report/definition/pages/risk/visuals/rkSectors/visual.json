@@ -1,0 +1,98 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "rkSectors",
+  "position": {
+    "x": 16,
+    "y": 512,
+    "z": 5000,
+    "width": 1248,
+    "height": 196,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_security"
+                    }
+                  },
+                  "Property": "sector"
+                }
+              },
+              "queryRef": "dim_security.sector",
+              "nativeQueryRef": "Sector",
+              "displayName": "Sector"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_portfolio"
+                    }
+                  },
+                  "Property": "portfolio"
+                }
+              },
+              "queryRef": "dim_portfolio.portfolio",
+              "nativeQueryRef": "Portfolio",
+              "displayName": "Portfolio"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_position"
+                    }
+                  },
+                  "Property": "Position Weight"
+                }
+              },
+              "queryRef": "fact_position.Position Weight",
+              "nativeQueryRef": "Weight",
+              "displayName": "Weight"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sector weight by portfolio'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
